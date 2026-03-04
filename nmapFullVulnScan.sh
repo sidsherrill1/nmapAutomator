@@ -107,23 +107,12 @@ main() {
     # --- Phase 2: Version, default scripts, vuln scripts ---
     printf "${GREEN}----- Phase 2: Version + default + vuln scripts on open ports -----${NC}\n\n"
 
-    printf "${YELLOW}Running: -sV -sC --script vuln -p ${openPorts}${NC}\n\n"
+    printf "${YELLOW}Running: -sV -sC --script \"vuln and not vulners\" -p ${openPorts}${NC}\n\n"
 
-    "${NMAPPATH}" -Pn -sV -sC --script vuln -p"${openPorts}" --open \
+    "${NMAPPATH}" -Pn -sV -sC --script "vuln and not vulners" -p"${openPorts}" --open \
         -oN "nmap/VersionScriptVuln_${HOST}.nmap" \
         -oX "nmap/VersionScriptVuln_${HOST}.xml" \
         "${HOST}"
-
-    # Optional: CVE scan via vulners if available
-    if [ -f /usr/share/nmap/scripts/vulners.nse ]; then
-        echo
-        printf "${GREEN}----- CVE scan (vulners) on open ports -----${NC}\n\n"
-        "${NMAPPATH}" -Pn -sV --script vulners --script-args mincvss=7.0 -p"${openPorts}" --open \
-            -oN "nmap/CVEs_${HOST}.nmap" \
-            "${HOST}"
-    else
-        printf "${YELLOW}Tip: Install vulners.nse for CVE scanning: https://github.com/vulnersCom/nmap-vulners${NC}\n"
-    fi
 
     footer "${elapsedStart}"
 }
