@@ -111,7 +111,6 @@ main() {
 
     "${NMAPPATH}" -Pn -sV -sC --script "vuln and not vulners" -p"${openPorts}" --open \
         -oN "nmap/VersionScriptVuln_${HOST}.nmap" \
-        -oX "nmap/VersionScriptVuln_${HOST}.xml" \
         "${HOST}"
 
     footer "${elapsedStart}"
